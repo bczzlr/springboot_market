@@ -1,15 +1,11 @@
 package com.example.demo090.dao.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.*;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.Set;
 
 /**
@@ -38,11 +34,19 @@ public class UserEntity {
 
 //    @OneToMany(targetEntity = CommodityEntity.class)
 //    @JoinColumn(name = "out_user_id", referencedColumnName = "id")
+
     //商品set
     @OneToMany(mappedBy = "user")
+    @JsonBackReference
     private Set<CommodityEntity> commodityEntities = new HashSet<>();
 
+    //未处理商品set
+    @OneToMany(mappedBy = "user_un")
+    @JsonBackReference
+    private Set<UnHandledCommunityEntity> unHandledCommunities = new HashSet<>();
+
     //订单set
+    //JsonBackReference从关系注解
     @OneToMany(mappedBy = "userEntity")
     @JsonBackReference
     private Set<DealEntity> dealEntities = new HashSet<>();

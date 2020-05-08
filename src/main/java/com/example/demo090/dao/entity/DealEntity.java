@@ -29,10 +29,10 @@ public class DealEntity {
     @Column(name = "deal_changetime")
     private LocalDateTime dealChangeTime;
 
-//    //和商品表建立一对一联系
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "commodity_com_id")
-//    private CommodityEntity commodityEntity;
+    //和商品表建立一对一联系
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "commodity_com_id")
+    private CommodityEntity commodityEntity;
 
     //和用户表建立多对一联系
     @JsonManagedReference

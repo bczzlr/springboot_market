@@ -50,13 +50,13 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     /**
-     * 返回所有商品信息
+     * 返回所有商品已审核的信息
      * @return
      */
     @Override
     public List<Commodity> getAll() {
 
-        List<CommodityEntity> commodities = commodityRepository.findAll();
+        List<CommodityEntity> commodities = commodityRepository.findByComStatus("released");
 
         List<Commodity> commodityList = commodities.stream().map( entity ->{
 
@@ -94,7 +94,8 @@ public class CommodityServiceImpl implements CommodityService {
         BeanUtils.copyProperties(userReq,userEntity);
 
         //保存商品状态
-        commodityEntity.setComStatus("released");
+        //保存状态为“unchecked”
+        commodityEntity.setComStatus("unchecked");
 
         //保存并产生关联
         UserEntity out = userRepository.findByUsername(userReq.getUsername());

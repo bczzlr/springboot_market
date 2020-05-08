@@ -1,6 +1,7 @@
 package com.example.demo090.dao.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -36,6 +37,7 @@ public class CommodityEntity {
     private LocalDateTime comReleaseTime;
 
     //商品状态
+    //unchecked 未审核
     //release已经发布
     //traded 已经交易
     //commented 已经评论
@@ -45,10 +47,11 @@ public class CommodityEntity {
     //和用户创建多对一关系
     @ManyToOne(targetEntity = UserEntity.class)
     @JoinColumn(name = "out_user_id",referencedColumnName = "id")
+    @JsonManagedReference
     private UserEntity user;
 
-//    @OneToOne(mappedBy = "commodityEntity")
-//    private DealEntity deal;
+    @OneToOne(mappedBy = "commodityEntity")
+    private DealEntity deal;
 
     public Long getComID() {
         return comID;
