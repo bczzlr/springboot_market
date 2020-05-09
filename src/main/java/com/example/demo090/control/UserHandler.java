@@ -4,6 +4,8 @@ import com.example.demo090.control.param.UserReq;
 import com.example.demo090.dao.entity.CommodityEntity;
 import com.example.demo090.dao.entity.DealEntity;
 import com.example.demo090.dao.entity.UserEntity;
+import com.example.demo090.dao.repository.CommodityRepository;
+import com.example.demo090.dao.repository.DealRepository;
 import com.example.demo090.dao.repository.UserRepository;
 import com.example.demo090.domain.User;
 import com.example.demo090.service.Result;
@@ -12,6 +14,7 @@ import com.example.demo090.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -22,6 +25,12 @@ public class UserHandler {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    DealRepository dealRepository;
+
+    @Autowired
+    CommodityRepository commodityRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -59,12 +68,25 @@ public class UserHandler {
     }
 
     /**
+     * 测试下根据用户信息能查到什么
+     * @return
+     */
+    @GetMapping("/testgetcom")
+    public Set<CommodityEntity> testCommodityByUser(){
+        UserEntity userEntity = userRepository.findById((long) 1).get();
+
+        return userEntity.getCommodityEntities();
+    }
+
+
+    /**
      * 别动这个方法，出大问题
      * 已解决
      * @return
      */
     @GetMapping("/listtest")
-    public Set<DealEntity> getSet(){
+    public Set<DealEntity> getSet() {
+        //return (Set<DealEntity>) dealRepository.findoutid((long) 9);
         return userRepository.findByUsername("haha").getDealEntities();
     }
 

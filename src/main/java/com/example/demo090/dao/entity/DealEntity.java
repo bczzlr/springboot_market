@@ -30,8 +30,11 @@ public class DealEntity {
     private LocalDateTime dealChangeTime;
 
     //和商品表建立一对一联系
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "commodity_com_id")
+    //@OneToOne(cascade = CascadeType.ALL)
+    //@JoinColumn(name = "commodity_com_id")
+    @JsonBackReference
+    //@JsonManagedReference
+    @OneToOne(mappedBy = "deal")
     private CommodityEntity commodityEntity;
 
     //和用户表建立多对一联系
@@ -64,13 +67,13 @@ public class DealEntity {
         this.dealChangeTime = dealChangeTime;
     }
 
-//    public CommodityEntity getCommodityEntity() {
-//        return commodityEntity;
-//    }
-//
-//    public void setCommodityEntity(CommodityEntity commodityEntity) {
-//        this.commodityEntity = commodityEntity;
-//    }
+    public CommodityEntity getCommodityEntity() {
+        return commodityEntity;
+    }
+
+    public void setCommodityEntity(CommodityEntity commodityEntity) {
+        this.commodityEntity = commodityEntity;
+    }
 
     public UserEntity getUserEntity() {
         return userEntity;

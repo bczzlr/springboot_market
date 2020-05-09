@@ -1,6 +1,8 @@
 package com.example.demo090.dao.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
@@ -39,8 +41,8 @@ public class CommodityEntity {
     //商品状态
     //unchecked 未审核
     //release已经发布
-    //traded 已经交易
-    //commented 已经评论
+    //traded 已经交易，已经点击交易按钮，但未给出评价
+    //commented 已经评论，订单正式完成
     @Column(name = "com_status")
     private String comStatus;
 
@@ -50,8 +52,16 @@ public class CommodityEntity {
     @JsonManagedReference
     private UserEntity user;
 
-    @OneToOne(mappedBy = "commodityEntity")
+    //和交易表建立一对一联系
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "out_deal_id")
+    @JsonManagedReference
+    //@JsonBackReference
+    //@JsonIgnore
     private DealEntity deal;
+
+//    @OneToOne(mappedBy = "commodityEntity")
+//    private DealEntity deal;
 
     public Long getComID() {
         return comID;
@@ -109,13 +119,13 @@ public class CommodityEntity {
         this.user = user;
     }
 
-//    public DealEntity getDeal() {
-//        return deal;
-//    }
-//
-//    public void setDeal(DealEntity deal) {
-//        this.deal = deal;
-//    }
+    public DealEntity getDeal() {
+        return deal;
+    }
+
+    public void setDeal(DealEntity deal) {
+        this.deal = deal;
+    }
 
 //    @Override
 //    public String toString() {
