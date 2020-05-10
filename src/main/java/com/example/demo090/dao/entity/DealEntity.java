@@ -29,12 +29,16 @@ public class DealEntity {
     @Column(name = "deal_changetime")
     private LocalDateTime dealChangeTime;
 
+    //交易人电话号码
+    @Column(name = "deal_buyertelephone")
+    private String dealBuyerTelephone ;
+
     //和商品表建立一对一联系
-    //@OneToOne(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "commodity_com_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "commodity_com_id")
     @JsonBackReference
     //@JsonManagedReference
-    @OneToOne(mappedBy = "deal")
+//    @OneToOne(mappedBy = "deal")
     private CommodityEntity commodityEntity;
 
     //和用户表建立多对一联系
@@ -83,6 +87,13 @@ public class DealEntity {
         this.userEntity = userEntity;
     }
 
+    public String getDealBuyerTelephone() {
+        return dealBuyerTelephone;
+    }
+
+    public void setDealBuyerTelephone(String dealBuyerTelephone) {
+        this.dealBuyerTelephone = dealBuyerTelephone;
+    }
 //    @Override
 //    public String toString() {
 //        return "DealEntity{" +

@@ -55,6 +55,7 @@ public class CommodityEntity {
     //和交易表建立一对一联系
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "out_deal_id")
+    //@OneToOne(mappedBy = "commodityEntity")
     @JsonManagedReference
     //@JsonBackReference
     //@JsonIgnore
