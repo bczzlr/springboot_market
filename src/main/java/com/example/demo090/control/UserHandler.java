@@ -7,6 +7,7 @@ import com.example.demo090.dao.entity.UserEntity;
 import com.example.demo090.dao.repository.CommodityRepository;
 import com.example.demo090.dao.repository.DealRepository;
 import com.example.demo090.dao.repository.UserRepository;
+import com.example.demo090.domain.DealWithCommodity;
 import com.example.demo090.domain.User;
 import com.example.demo090.service.Result;
 import com.example.demo090.service.ResultUtil;
@@ -90,5 +91,24 @@ public class UserHandler {
         return userRepository.findByUsername("haha").getDealEntities();
     }
 
+    /**
+     * 根据传入的用户信息查找商品，其实不用发送user，直接发送id即可减少资源消耗，待改进
+     * @param user 用户对象
+     * @return
+     */
+    @PostMapping("/getcombyuser")
+    public Set<CommodityEntity> getCommodityByUser(@RequestBody User user){
+
+        //UserEntity userEntity = new UserEntity();
+
+
+
+        return userRepository.findById(user.getId()).get().getCommodityEntities();
+    }
+
+    @PostMapping("/getdealbyuser")
+    public Set<DealWithCommodity> getDealByUser(@RequestBody User user){
+        return userService.reMold(userRepository.findById(user.getId()).get().getDealEntities());
+    }
 
 }

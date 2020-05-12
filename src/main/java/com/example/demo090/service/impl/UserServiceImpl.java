@@ -2,15 +2,20 @@ package com.example.demo090.service.impl;
 
 import com.example.demo090.control.param.UserReq;
 import com.example.demo090.dao.entity.BookEntity;
+import com.example.demo090.dao.entity.DealEntity;
 import com.example.demo090.dao.entity.UserEntity;
 import com.example.demo090.dao.repository.UserRepository;
 import com.example.demo090.domain.Book;
+import com.example.demo090.domain.DealWithCommodity;
 import com.example.demo090.domain.User;
 import com.example.demo090.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -60,4 +65,28 @@ public class UserServiceImpl implements UserService {
         else
             return true;
     }
+
+    @Override
+    public Set<DealWithCommodity> reMold(Set<DealEntity> dealEntities) {
+
+        Set<DealWithCommodity> dealWithCommodities = new HashSet<>();
+        //遍历set取值
+        for (DealEntity dealEntity : dealEntities) {
+
+            DealWithCommodity dealWithCommodity = new DealWithCommodity();
+            //取值赋值
+            dealWithCommodity.setC_name(dealEntity.getCommodityEntity().getComName());
+            dealWithCommodity.setC_describe(dealEntity.getCommodityEntity().getComDescribe());
+            dealWithCommodity.setC_prive(dealEntity.getCommodityEntity().getComPrice());
+            dealWithCommodity.setD_location(dealEntity.getDealLocation());
+            dealWithCommodity.setD_tele(dealEntity.getDealBuyerTelephone());
+            dealWithCommodity.setD_time(dealEntity.getDealChangeTime());
+            dealWithCommodity.setU_name(dealEntity.getCommodityEntity().getUser().getUsername());
+
+            //加进set
+            dealWithCommodities.add(dealWithCommodity);
+        }
+        return dealWithCommodities;
+    }
+
 }

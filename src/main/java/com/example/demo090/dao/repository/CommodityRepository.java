@@ -13,6 +13,7 @@ public interface CommodityRepository extends JpaRepository<CommodityEntity,Long>
     public List<CommodityEntity> findByComStatus(String status);
 
 
+
     @Modifying
     @Query("update CommodityEntity u set u.comStatus = ?1 where u.comID = ?2")
     int changeStatus(String status, Long id);

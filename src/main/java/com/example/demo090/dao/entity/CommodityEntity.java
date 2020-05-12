@@ -56,8 +56,8 @@ public class CommodityEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "out_deal_id")
     //@OneToOne(mappedBy = "commodityEntity")
-    @JsonManagedReference
-    //@JsonBackReference
+    //@JsonManagedReference
+    @JsonBackReference
     //@JsonIgnore
     private DealEntity deal;
 

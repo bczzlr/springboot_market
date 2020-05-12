@@ -77,6 +77,15 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     /**
+     * 查找状态为已经发布的商品信息
+     * @return
+     */
+    @Override
+    public List<CommodityEntity> getStatus() {
+        return commodityRepository.findByComStatus("released");
+    }
+
+    /**
      * 添加一个商品，同时对两个表中的实例进行关联
      * @param commodityReq 商品参数
      * @param userReq 用户参数
