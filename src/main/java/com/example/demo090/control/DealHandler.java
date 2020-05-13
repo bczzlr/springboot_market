@@ -32,13 +32,13 @@ public class DealHandler {
     public DealEntity makeDeal( @RequestBody Map<String, String> models) throws Exception {
 
         //System.out.println(comid);
-        System.out.println(models.get("com"));
+        //System.out.println(models.get("com"));
         //从map中获取数据
         OnlyComID com = JsonXMLUtils.json2obj( models.get("com"), OnlyComID.class);
-        System.out.println(com.getComID());
+        //System.out.println(com.getComID());
         //models.get("com").substring()
         UserEntity userReq = JsonXMLUtils.json2obj(models.get("user"), UserEntity.class);
-        System.out.println(userReq.getId());
+        //System.out.println(userReq.getId());
         //应该封一个DealReq，待封装
         DealReq deal = JsonXMLUtils.json2obj((models.get("deal")), DealReq.class);
         System.out.println(deal.getDealLocation()+deal.getDealBuyerTelephone()+deal.getDealChangeTime());

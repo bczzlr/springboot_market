@@ -3,18 +3,22 @@ package com.example.demo090.control;
 import com.example.demo090.control.param.UserReq;
 import com.example.demo090.dao.entity.CommodityEntity;
 import com.example.demo090.dao.entity.DealEntity;
+import com.example.demo090.dao.entity.Evaluate;
 import com.example.demo090.dao.entity.UserEntity;
 import com.example.demo090.dao.repository.CommodityRepository;
 import com.example.demo090.dao.repository.DealRepository;
 import com.example.demo090.dao.repository.UserRepository;
 import com.example.demo090.domain.DealWithCommodity;
+import com.example.demo090.domain.EvalInformation;
 import com.example.demo090.domain.User;
+import com.example.demo090.service.EvalService;
 import com.example.demo090.service.Result;
 import com.example.demo090.service.ResultUtil;
 import com.example.demo090.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -23,6 +27,9 @@ import java.util.Set;
 public class UserHandler {
 
     private static final int USERALREADYEXIST = -1;
+
+    @Autowired
+    EvalService evalService;
 
     @Autowired
     UserService userService;
@@ -93,6 +100,7 @@ public class UserHandler {
 
     /**
      * 根据传入的用户信息查找商品，其实不用发送user，直接发送id即可减少资源消耗，待改进
+     * 第二次修改：返回的商品状态为已发布和已购买，商品并未被评论
      * @param user 用户对象
      * @return
      */
@@ -100,15 +108,50 @@ public class UserHandler {
     public Set<CommodityEntity> getCommodityByUser(@RequestBody User user){
 
         //UserEntity userEntity = new UserEntity();
+        //新增功能，根据商品状态返回set，状态为traded的才返回
+
+        Set<CommodityEntity> tradedCommodity = new HashSet<>();
+
+        //用户发布的所有的商品
+        Set<CommodityEntity> allCommodities = userRepository.findById(user.getId()).get().getCommodityEntities();
+        //循环遍历
+        for (CommodityEntity commodity : allCommodities) {
+            //如果满足已发布或者已购买
+            if ("released".equals(commodity.getComStatus()) || "traded".equals(commodity.getComStatus())){
+                //加进set中取
+                tradedCommodity.add(commodity);
+            }
+
+        }
 
 
-
-        return userRepository.findById(user.getId()).get().getCommodityEntities();
+        return tradedCommodity;
     }
 
+    /**
+     * 根据用户找订单
+     * @param user
+     * @return
+     */
     @PostMapping("/getdealbyuser")
     public Set<DealWithCommodity> getDealByUser(@RequestBody User user){
-        return userService.reMold(userRepository.findById(user.getId()).get().getDealEntities());
+        Set<DealWithCommodity> iters = userService.reMold(userRepository.findById(user.getId()).get().getDealEntities());
+        Set<DealWithCommodity> finalSet = new HashSet<>();
+
+        for (DealWithCommodity dealWithCommodity : iters) {
+            if ("traded".equals(dealWithCommodity.getC_status())){
+                finalSet.add(dealWithCommodity);
+            }
+        }
+        return finalSet;
+    }
+
+    @PostMapping("/getevalbyuser")
+    public Set<EvalInformation> getEvalByUser(@RequestBody User user){
+        Set<Evaluate> evaluates = userRepository.findById(user.getId()).get().getEvaluates();
+        Set<EvalInformation> evalInformations = evalService.reMold(evaluates);
+
+        return evalInformations;
     }
 
 }

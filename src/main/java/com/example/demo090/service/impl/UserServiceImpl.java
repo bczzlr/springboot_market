@@ -66,6 +66,11 @@ public class UserServiceImpl implements UserService {
             return true;
     }
 
+    /**
+     * 将数据进行从新封装
+     * @param dealEntities
+     * @return
+     */
     @Override
     public Set<DealWithCommodity> reMold(Set<DealEntity> dealEntities) {
 
@@ -82,6 +87,11 @@ public class UserServiceImpl implements UserService {
             dealWithCommodity.setD_tele(dealEntity.getDealBuyerTelephone());
             dealWithCommodity.setD_time(dealEntity.getDealChangeTime());
             dealWithCommodity.setU_name(dealEntity.getCommodityEntity().getUser().getUsername());
+            dealWithCommodity.setC_status(dealEntity.getCommodityEntity().getComStatus());
+            dealWithCommodity.setC_id(dealEntity.getCommodityEntity().getComID());
+            dealWithCommodity.setD_id(dealEntity.getDealID());
+            //dealWithCommodity.setE_id(dealEntity.getEvaluate().getEvalID());
+
 
             //加进set
             dealWithCommodities.add(dealWithCommodity);

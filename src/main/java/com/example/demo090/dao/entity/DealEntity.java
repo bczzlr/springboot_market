@@ -41,6 +41,14 @@ public class DealEntity {
 //    @OneToOne(mappedBy = "deal")
     private CommodityEntity commodityEntity;
 
+    //和评价表建立一对一联系
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "eval_com_id")
+    @JsonBackReference
+    //@JsonManagedReference
+//    @OneToOne(mappedBy = "deal")
+    private Evaluate evaluate;
+
     //和用户表建立多对一联系
     @JsonManagedReference
     @ManyToOne(targetEntity = UserEntity.class)
@@ -94,7 +102,16 @@ public class DealEntity {
     public void setDealBuyerTelephone(String dealBuyerTelephone) {
         this.dealBuyerTelephone = dealBuyerTelephone;
     }
-//    @Override
+
+    public Evaluate getEvaluate() {
+        return evaluate;
+    }
+
+    public void setEvaluate(Evaluate evaluate) {
+        this.evaluate = evaluate;
+    }
+
+    //    @Override
 //    public String toString() {
 //        return "DealEntity{" +
 //                "dealID=" + dealID +

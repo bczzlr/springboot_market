@@ -51,6 +51,11 @@ public class UserEntity {
     @JsonBackReference
     private Set<DealEntity> dealEntities = new HashSet<>();
 
+    //评论set
+    @OneToMany(mappedBy = "user_eval")
+    @JsonBackReference
+    private Set<Evaluate> evaluates = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -99,7 +104,15 @@ public class UserEntity {
         this.dealEntities = dealEntities;
     }
 
-//    @Override
+    public Set<Evaluate> getEvaluates() {
+        return evaluates;
+    }
+
+    public void setEvaluates(Set<Evaluate> evaluates) {
+        this.evaluates = evaluates;
+    }
+
+    //    @Override
 //    public String toString() {
 //        return "UserEntity{" +
 //                "id=" + id +

@@ -87,6 +87,7 @@ public class CommodityServiceImpl implements CommodityService {
 
     /**
      * 添加一个商品，同时对两个表中的实例进行关联
+     * 此处有小bug，若重名用户添加出错，因为传入参数是userreq按照姓名查找，应该按照id查找，待改
      * @param commodityReq 商品参数
      * @param userReq 用户参数
      * @return

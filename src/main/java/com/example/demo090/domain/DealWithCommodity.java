@@ -24,4 +24,12 @@ public class DealWithCommodity {
     private String c_describe;
     //交易对象名称
     private String u_name;
+    //商品状态
+    private String c_status;
+    //商品id
+    private Long c_id;
+    //订单id
+    private Long d_id;
+    //评价id
+    //private Long e_id;
 }
